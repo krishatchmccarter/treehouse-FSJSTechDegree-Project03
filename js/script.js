@@ -51,7 +51,7 @@ shirtDesignSet.addEventListener('change', e => {
         
         if(shirtColorSet[i].label.includes("JS Puns shirt only")){
             shirtColorSet.options[i].hidden = false;
-            shirtColorSet.firstChild.label = "Please select a T-shirt Color"
+            shirtColorSet.options[1].selected = true;
         } else {
             shirtColorSet.options[i].hidden = true;
         }
@@ -62,7 +62,7 @@ shirtDesignSet.addEventListener('change', e => {
         
             if(shirtColorSet[i].label.includes("JS shirt only")){
                 shirtColorSet.options[i].hidden = false;
-                shirtColorSet.firstChild.label = "Please select a T-shirt Color"
+                shirtColorSet.options[4].selected = true;
             } else {
                 shirtColorSet.options[i].hidden = true;
             }
@@ -73,3 +73,47 @@ shirtDesignSet.addEventListener('change', e => {
 }
 )
 
+// Create a DOM Element to display the total activity cost
+const activity = document.querySelector('.activities');
+let totalCost = 0;
+let totalCostElement = document.createElement('label');
+totalCostElement.innerHTML = `Total: $ ${totalCost}`;
+activity.appendChild(totalCostElement);
+const activityInput = document.querySelectorAll('.activities label input');
+
+
+//console.log(totalCost);
+//console.log(totalCostElement);
+
+
+// Add a change event listener to the activity section.
+activity.addEventListener('change', e => {
+    let click = e.target;
+    const clickedCost = parseInt(e.target.getAttribute('data-cost'));
+    const dayAndTime = e.target.getAttribute('data-day-and-time');
+    //if the input element clicked is checked
+    if(e.target.checked){
+        //if the clicked box is checked add the activity cost to the total cost and update the DOM Element Text
+        totalCost += clickedCost;
+        totalCostElement.innerHTML = `Total: $ ${totalCost}`;
+
+        for(let i=0; i<activityInput.length; i++){
+            if (dayAndTime === activityInput[i].getAttribute('data-day-and-time') && click !== activityInput[i]){
+                activityInput[i].disabled = true;
+            }
+            }
+
+
+    }else{
+        //otherwise (if it was unchecked) subtract from the total cost and update the DOM Element Text
+        totalCost -= clickedCost;
+        totalCostElement.innerHTML = `Total: $ ${totalCost}`;
+
+        for(let i=0; i<activityInput.length; i++){
+            if (dayAndTime === activityInput[i].getAttribute('data-day-and-time') && click !== activityInput[i]){
+                activityInput[i].disabled = false;
+            }
+            }
+    }
+
+    })
