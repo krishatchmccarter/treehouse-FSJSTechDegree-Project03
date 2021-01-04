@@ -108,3 +108,38 @@ activity.addEventListener("change", (e) => {
     }
   }
 });
+
+// Create isvalid functions that return true if pass regex. Placing inside keyup listener that allows real-time validation.
+
+// name (can't be blank)
+//email address
+//Create event listener on email field
+document.getElementById("mail").addEventListener("keyup", (e) => {
+  const email = document.getElementById("mail").value;
+  const regExEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  //Email regex from https://emailregex.com/
+  const isValidEmail = regExEmail.test(email);
+  console.log(isValidEmail);
+  if (!isValidEmail) {
+    e.preventDefault();
+    //create error message element
+    return false;
+  } else {
+    //remove error message element
+    return true;
+  }
+});
+
+// activities (at least one box checked)
+// Credit Card Num (13-16 digits) only validated if the payment method is "credit card"
+const regexCreditCardValidation = /0-9/;
+// Zip (5 digits)
+// CCV (3 digits).
+
+//For each validator function each will
+//use a conditional to check if the input value meets the requirements for that input
+//if the criteria are not met, add an error indicator and return false (turn the input border red and append the dom near the input to give a message to show when the field is invalid and hide when the field is valid)
+
+//if the criteria are met, remove any error indicators and return false
+
+// In your form listener, check for if all the validator functions are true, and if so submit the form, if not prevent default behavior
