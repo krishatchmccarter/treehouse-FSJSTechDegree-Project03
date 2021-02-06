@@ -1,13 +1,14 @@
 //Variables
-const name2 = document.getElementById("name");
-const nameRequired = name2.required;
+const userName = document.getElementById("name");
 const jobTitle = document.getElementById("title");
 const jobRoleInput = document.getElementById("other-title");
 const shirtColorSet = document.querySelector("#color");
 const shirtDesignSet = document.querySelector("#design");
+const form = document.querySelector("form");
+const email = document.getElementById("mail");
 
 //Put the first field in the focus state
-name2.focus();
+userName.focus();
 
 //Add "Other" option to the Job Role section.
 //Set input field to initially hidden but will display if JavaScript is disabled.
@@ -71,9 +72,6 @@ let totalCostElement = document.createElement("label");
 totalCostElement.innerHTML = `Total: $ ${totalCost}`;
 activity.appendChild(totalCostElement);
 const activityInput = document.querySelectorAll(".activities label input");
-
-//console.log(totalCost);
-//console.log(totalCostElement);
 
 // Add a change event listener to the activity section.
 activity.addEventListener("change", (e) => {
@@ -141,65 +139,49 @@ paymentSelect.addEventListener("change", (e) => {
   }
 });
 
-//NOTE: The user should not be able to select the "Select Payment Method" option from the payment select menu, because the user should not be able to submit the form without a chosen payment option.
+//Prevent user from being able to select the "Select Payment Method" option from the payment select menu, because the user should not be able to submit the form without a chosen payment option.
 paymentSelect[0].disabled = true;
 
-//Form validation messages Provide some kind of indication when there’s a validation error. The field’s borders could turn red, for example, or even better for the user would be if a red text message appeared near the field.
-
-//The following fields should have some obvious form of an error indication: Name field, Email field, Register for Activities checkboxes (at least one must be selected), Credit Card number (Only if Credit Card payment method is selected), Zip Code (Only if Credit Card payment method is selected), CVV (Only if Credit Card payment method is selected)
-
-//Note: Error messages or indications should not be visible by default. They should only show upon submission, or after some user interaction.
-
-//Note: Avoid use alerts for your validation messages.
-
-//Note: If a user tries to submit an empty form, there should be an error indication or message displayed for the name field, the email field, the activity section, and the credit card fields if credit card is the selected payment method.
-
-// Create isvalid functions that return true if pass regex. Placing inside keyup listener that allows real-time validation.
+//Form Validations using JS: Prevent user from submitting the form unless name, email, activities, CC pass validation (cc only if that payment option is selected).  Create helper functions to validate, call helper functions in eventlistener on form submit.
 
 // name (can't be blank)
-//email address
-//Create event listener on email field
-document.getElementById("mail").addEventListener("keyup", (e) => {
-  const email = document.getElementById("mail").value;
+const userNameValidator = () => {
+  const userNameValue = userName.value;
+  if (userNameValue.length > 0) {
+    userName.style.borderColor = "white";
+    return true;
+  } else {
+    userName.style.borderColor = "red";
+    return false;
+  }
+};
+
+const emailValidator = () => {
+  const emailValue = email.value;
   const regExEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   //Email regex from https://emailregex.com/
-  const isValidEmail = regExEmail.test(email);
-  console.log(isValidEmail);
-  if (!isValidEmail) {
-    e.preventDefault();
-    //create error message element (red + tooltip)
-    return false;
-  } else {
-    //remove error message element
+  const isValidEmail = regExEmail.test(emailValue);
+  if (isValidEmail) {
+    email.style.borderColor = "white";
     return true;
+  } else {
+    email.style.borderColor = "red";
+    return false;
+  }
+};
+
+form.addEventListener("submit", (e) => {
+  userNameValidator;
+  emailValidator;
+
+  if (!userNameValidator()) {
+    e.preventDefault();
+    console.log("The userNameValidator failed KristiLou");
+    userName.focus();
+  }
+
+  if (!emailValidator()) {
+    e.preventDefault();
+    console.log("The emailvalidation failed KristiLou");
   }
 });
-
-// activities (at least one box checked)
-// Credit Card Num (13-16 digits) only validated if the payment method is "credit card"
-document.getElementById("cc-num").addEventListener("keyup", (e) => {
-  const CreditCard = document.getElementById("cc-num").value;
-  const regExCreditCard = /^[0-9]{13,16}$/;
-  const isValidCreditCard = regExCreditCard.test(CreditCard);
-  console.log(CreditCard);
-  console.log(isValidCreditCard);
-  if (!isValidCreditCard) {
-    e.preventDefault();
-    //create error message element
-    return false;
-  } else {
-    //remove error message element
-    return true;
-  }
-});
-
-// Zip (5 digits)
-// CCV (3 digits).
-
-//For each validator function each will
-//use a conditional to check if the input value meets the requirements for that input
-//if the criteria are not met, add an error indicator and return false (turn the input border red and append the dom near the input to give a message to show when the field is invalid and hide when the field is valid)
-
-//if the criteria are met, remove any error indicators and return false
-
-// In your form listener, check for if all the validator functions are true, and if so submit the form, if not prevent default behavior
