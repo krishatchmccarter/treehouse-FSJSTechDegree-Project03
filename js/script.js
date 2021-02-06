@@ -1,12 +1,13 @@
 //Variables
-const name = document.getElementById("name");
+const name2 = document.getElementById("name");
+const nameRequired = name2.required;
 const jobTitle = document.getElementById("title");
 const jobRoleInput = document.getElementById("other-title");
 const shirtColorSet = document.querySelector("#color");
-shirtDesignSet = document.querySelector("#design");
+const shirtDesignSet = document.querySelector("#design");
 
 //Put the first field in the focus state
-name.focus();
+name2.focus();
 
 //Add "Other" option to the Job Role section.
 //Set input field to initially hidden but will display if JavaScript is disabled.
@@ -109,6 +110,50 @@ activity.addEventListener("change", (e) => {
   }
 });
 
+//The "Credit Card" payment option should be selected by default. Display the #credit-card div, and hide the "PayPal" and "Bitcoin" information. Payment option in the select menu should match the payment option displayed on the page.
+const creditDiv = document.getElementById("credit-card");
+const payPalDiv = document.getElementById("paypal");
+const bitCoinDiv = document.getElementById("bitcoin");
+const paymentSelect = document.querySelector("#payment");
+
+payPalDiv.style.display = "none";
+bitCoinDiv.style.display = "none";
+paymentSelect.value = "credit card";
+
+//When a user selects the "PayPal" payment option, the PayPal information should display, and the credit card and “Bitcoin” information should be hidden.
+
+//When a user selects the "Bitcoin" payment option, the Bitcoin information should display, and the credit card and “PayPal” information should be hidden.
+
+paymentSelect.addEventListener("change", (e) => {
+  let paymentSelected = e.target.value;
+  if (paymentSelected === "paypal") {
+    payPalDiv.style.display = "block";
+    bitCoinDiv.style.display = "none";
+    creditDiv.style.display = "none";
+  } else if (paymentSelected === "bitcoin") {
+    payPalDiv.style.display = "none";
+    bitCoinDiv.style.display = "block";
+    creditDiv.style.display = "none";
+  } else if (paymentSelected === "credit card") {
+    payPalDiv.style.display = "none";
+    bitCoinDiv.style.display = "none";
+    creditDiv.style.display = "block";
+  }
+});
+
+//NOTE: The user should not be able to select the "Select Payment Method" option from the payment select menu, because the user should not be able to submit the form without a chosen payment option.
+paymentSelect[0].disabled = true;
+
+//Form validation messages Provide some kind of indication when there’s a validation error. The field’s borders could turn red, for example, or even better for the user would be if a red text message appeared near the field.
+
+//The following fields should have some obvious form of an error indication: Name field, Email field, Register for Activities checkboxes (at least one must be selected), Credit Card number (Only if Credit Card payment method is selected), Zip Code (Only if Credit Card payment method is selected), CVV (Only if Credit Card payment method is selected)
+
+//Note: Error messages or indications should not be visible by default. They should only show upon submission, or after some user interaction.
+
+//Note: Avoid use alerts for your validation messages.
+
+//Note: If a user tries to submit an empty form, there should be an error indication or message displayed for the name field, the email field, the activity section, and the credit card fields if credit card is the selected payment method.
+
 // Create isvalid functions that return true if pass regex. Placing inside keyup listener that allows real-time validation.
 
 // name (can't be blank)
@@ -122,7 +167,7 @@ document.getElementById("mail").addEventListener("keyup", (e) => {
   console.log(isValidEmail);
   if (!isValidEmail) {
     e.preventDefault();
-    //create error message element
+    //create error message element (red + tooltip)
     return false;
   } else {
     //remove error message element
@@ -132,7 +177,22 @@ document.getElementById("mail").addEventListener("keyup", (e) => {
 
 // activities (at least one box checked)
 // Credit Card Num (13-16 digits) only validated if the payment method is "credit card"
-const regexCreditCardValidation = /0-9/;
+document.getElementById("cc-num").addEventListener("keyup", (e) => {
+  const CreditCard = document.getElementById("cc-num").value;
+  const regExCreditCard = /^[0-9]{13,16}$/;
+  const isValidCreditCard = regExCreditCard.test(CreditCard);
+  console.log(CreditCard);
+  console.log(isValidCreditCard);
+  if (!isValidCreditCard) {
+    e.preventDefault();
+    //create error message element
+    return false;
+  } else {
+    //remove error message element
+    return true;
+  }
+});
+
 // Zip (5 digits)
 // CCV (3 digits).
 
