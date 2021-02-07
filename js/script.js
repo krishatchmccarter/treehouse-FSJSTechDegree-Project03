@@ -6,6 +6,9 @@ const shirtColorSet = document.querySelector("#color");
 const shirtDesignSet = document.querySelector("#design");
 const form = document.querySelector("form");
 const email = document.getElementById("mail");
+const activity = document.querySelector(".activities");
+const activityInput = document.querySelectorAll(".activities label input");
+const creditCard = document.getElementById("cc-num");
 
 //Put the first field in the focus state
 userName.focus();
@@ -66,12 +69,11 @@ shirtDesignSet.addEventListener("change", (e) => {
 });
 
 // Create a DOM Element to display the total activity cost
-const activity = document.querySelector(".activities");
+
 let totalCost = 0;
 let totalCostElement = document.createElement("label");
 totalCostElement.innerHTML = `Total: $ ${totalCost}`;
 activity.appendChild(totalCostElement);
-const activityInput = document.querySelectorAll(".activities label input");
 
 // Add a change event listener to the activity section.
 activity.addEventListener("change", (e) => {
@@ -170,9 +172,40 @@ const emailValidator = () => {
   }
 };
 
+const activityValidator = () => {
+  for (let i = 0; i < activityInput.length; i++) {
+    if (activityInput[i].checked) {
+      activity.style.borderColor = "white";
+      return true;
+    }
+    activity.style.border = "1px solid red";
+    //fix this to do a better error
+    return false;
+  }
+};
+
+const ccValidator = document
+  .getElementById("cc-num")
+  .addEventListener("blur", (e) => {
+    const CreditCardNumber = document.getElementById("cc-num").value;
+    const regExCreditCard = /^[0-9]{13,16}$/;
+    const isValidCreditCard = regExCreditCard.test(CreditCardNumber);
+
+    if (isValidCreditCard) {
+      creditCard.style.borderColor = "white";
+      return true;
+    } else {
+      //remove error message element
+      creditCard.style.borderColor = "red";
+      e.preventDefault();
+      return false;
+    }
+  });
+
 form.addEventListener("submit", (e) => {
   userNameValidator;
   emailValidator;
+  activityValidator;
 
   if (!userNameValidator()) {
     e.preventDefault();
@@ -183,5 +216,10 @@ form.addEventListener("submit", (e) => {
   if (!emailValidator()) {
     e.preventDefault();
     console.log("The emailvalidation failed KristiLou");
+  }
+
+  if (!activityValidator()) {
+    e.preventDefault();
+    console.log("The activityvalidation failed KristiLou");
   }
 });
