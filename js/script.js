@@ -9,6 +9,7 @@ const email = document.getElementById("mail");
 const activity = document.querySelector(".activities");
 const activityInput = document.querySelectorAll(".activities label input");
 const creditCard = document.getElementById("cc-num");
+const zipField = document.getElementById("zip");
 
 //Put the first field in the focus state
 userName.focus();
@@ -160,8 +161,8 @@ const userNameValidator = () => {
 
 const emailValidator = () => {
   const emailValue = email.value;
-  const regExEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   //Email regex from https://emailregex.com/
+  const regExEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const isValidEmail = regExEmail.test(emailValue);
   if (isValidEmail) {
     email.style.borderColor = "white";
@@ -195,8 +196,24 @@ const ccValidator = document
       creditCard.style.borderColor = "white";
       return true;
     } else {
-      //remove error message element
       creditCard.style.borderColor = "red";
+      e.preventDefault();
+      return false;
+    }
+  });
+
+const zipValidator = document
+  .getElementById("zip")
+  .addEventListener("blur", (e) => {
+    const zipValue = document.getElementById("zip").value;
+    const regExZip = /^[0-9]{5}$/;
+    const isValidZip = regExZip.test(zipValue);
+
+    if (isValidZip) {
+      zipField.style.borderColor = "white";
+      return true;
+    } else {
+      zipField.style.borderColor = "red";
       e.preventDefault();
       return false;
     }
