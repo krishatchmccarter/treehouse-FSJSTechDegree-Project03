@@ -10,6 +10,7 @@ const activity = document.querySelector(".activities");
 const activityInput = document.querySelectorAll(".activities label input");
 const creditCard = document.getElementById("cc-num");
 const zipField = document.getElementById("zip");
+const cvvField = document.getElementById("cvv");
 
 //Put the first field in the focus state
 userName.focus();
@@ -159,6 +160,7 @@ const userNameValidator = () => {
   }
 };
 
+//validate email input
 const emailValidator = () => {
   const emailValue = email.value;
   //Email regex from https://emailregex.com/
@@ -173,51 +175,61 @@ const emailValidator = () => {
   }
 };
 
+//ensure at least one activity checked. using cost as criteria since that already runs based on checkbox input
 const activityValidator = () => {
-  for (let i = 0; i < activityInput.length; i++) {
-    if (activityInput[i].checked) {
-      activity.style.borderColor = "white";
-      return true;
-    }
+  if (totalCost !== 0) {
+    activity.style.borderColor = "white";
+    return true;
+  } else {
     activity.style.border = "1px solid red";
-    //fix this to do a better error
     return false;
   }
 };
 
-const ccValidator = document
-  .getElementById("cc-num")
-  .addEventListener("blur", (e) => {
-    const CreditCardNumber = document.getElementById("cc-num").value;
-    const regExCreditCard = /^[0-9]{13,16}$/;
-    const isValidCreditCard = regExCreditCard.test(CreditCardNumber);
+//CC Validation. Needs to run only if CC selected.  Above already have listener on Select element that shows credit div if Credit Card is selected. Use keyup event listener on credit div to trigger credit, zip and cvv validation.
 
-    if (isValidCreditCard) {
-      creditCard.style.borderColor = "white";
-      return true;
-    } else {
-      creditCard.style.borderColor = "red";
-      e.preventDefault();
-      return false;
-    }
-  });
+const ccValidator = () => {
+  const CreditCardNumber = document.getElementById("cc-num").value;
+  const regExCreditCard = /^[0-9]{13,16}$/;
+  const isValidCreditCard = regExCreditCard.test(CreditCardNumber);
+  console.log("This event listener is working");
 
-const zipValidator = document
-  .getElementById("zip")
-  .addEventListener("blur", (e) => {
-    const zipValue = document.getElementById("zip").value;
-    const regExZip = /^[0-9]{5}$/;
-    const isValidZip = regExZip.test(zipValue);
+  if (isValidCreditCard) {
+    creditCard.style.borderColor = "white";
+    return true;
+  } else {
+    creditCard.style.borderColor = "red";
+    return false;
+  }
+};
 
-    if (isValidZip) {
-      zipField.style.borderColor = "white";
-      return true;
-    } else {
-      zipField.style.borderColor = "red";
-      e.preventDefault();
-      return false;
-    }
-  });
+const zipValidator = () => {
+  const zipValue = document.getElementById("zip").value;
+  const regExZip = /^[0-9]{5}$/;
+  const isValidZip = regExZip.test(zipValue);
+
+  if (isValidZip) {
+    zipField.style.borderColor = "white";
+    return true;
+  } else {
+    zipField.style.borderColor = "red";
+    return false;
+  }
+};
+
+const cvvValidator = () => {
+  const cvvValue = document.getElementById("cvv").value;
+  const regExCvv = /^[0-9]{3}$/;
+  const isValidCvv = regExCvv.test(cvvValue);
+
+  if (isValidCvv) {
+    cvvField.style.borderColor = "white";
+    return true;
+  } else {
+    cvvField.style.borderColor = "red";
+    return false;
+  }
+};
 
 form.addEventListener("submit", (e) => {
   userNameValidator;
@@ -238,5 +250,23 @@ form.addEventListener("submit", (e) => {
   if (!activityValidator()) {
     e.preventDefault();
     console.log("The activityvalidation failed KristiLou");
+  }
+
+  if (paymentSelect[1].selected) {
+    ccValidator;
+    zipValidator;
+    cvvValidator;
+    if (!ccValidator()) {
+      e.preventDefault();
+      console.log("The ccvalidation failed KristiLou");
+    }
+    if (!zipValidator()) {
+      e.preventDefault();
+      console.log("The zipvalidation failed KristiLou");
+    }
+    if (!cvvValidator()) {
+      e.preventDefault();
+      console.log("The cvvvalidation failed KristiLou");
+    }
   }
 });
