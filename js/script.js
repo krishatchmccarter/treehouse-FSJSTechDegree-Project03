@@ -12,6 +12,10 @@ const creditCard = document.getElementById("cc-num");
 const zipField = document.getElementById("zip");
 const cvvField = document.getElementById("cvv");
 
+// document.write(
+//   '<script src="https://kit.fontawesome.com/bab41b580f.js" crossorigin="anonymous"></script>'
+// );
+
 //Put the first field in the focus state
 userName.focus();
 
@@ -148,14 +152,23 @@ paymentSelect[0].disabled = true;
 
 //Form Validations using JS: Prevent user from submitting the form unless name, email, activities, CC pass validation (cc only if that payment option is selected).  Create helper functions to validate, call helper functions in eventlistener on form submit.
 
+// let userNameErrorMessageElement = document.createElement("span");
+// userNameErrorMessageElement.classList.add("error-text");
+// userNameErrorMessageElement.innerHTML = "The name field cannot be blank";
+// userName.insertAdjacentElement("beforebegin", userNameErrorMessageElement);
+
 // name (can't be blank)
 const userNameValidator = () => {
   const userNameValue = userName.value;
   if (userNameValue.length > 0) {
-    userName.style.borderColor = "white";
+    userName.classList.remove("error-input");
+    userName.previousElementSibling.classList.remove("nameerror-text");
+
     return true;
   } else {
-    userName.style.borderColor = "red";
+    userName.classList.add("error-input");
+    userName.previousElementSibling.classList.add("nameerror-text");
+    userName.focus();
     return false;
   }
 };
@@ -167,21 +180,35 @@ const emailValidator = () => {
   const regExEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const isValidEmail = regExEmail.test(emailValue);
   if (isValidEmail) {
-    email.style.borderColor = "white";
+    email.classList.remove("error-input");
+    email.previousElementSibling.classList.remove("emailerror-text");
+    email.previousElementSibling.classList.remove("emailblankerror-text");
     return true;
   } else {
-    email.style.borderColor = "red";
-    return false;
+    if (emailValue.length == 0) {
+      console.log("email blank");
+      email.classList.add("error-input");
+      email.previousElementSibling.classList.add("emailblankerror-text");
+      email.previousElementSibling.classList.remove("emailerror-text");
+      return false;
+    } else {
+      email.classList.add("error-input");
+      email.previousElementSibling.classList.add("emailerror-text");
+      email.previousElementSibling.classList.remove("emailblankerror-text");
+      return false;
+    }
   }
 };
 
 //ensure at least one activity checked. using cost as criteria since that already runs based on checkbox input
 const activityValidator = () => {
   if (totalCost !== 0) {
-    activity.style.borderColor = "white";
+    activity.classList.remove("error-input");
+    activity.classList.remove("activityerror-text");
     return true;
   } else {
-    activity.style.border = "1px solid red";
+    activity.classList.add("error-input");
+    activity.classList.add("activityerror-text");
     return false;
   }
 };
@@ -195,10 +222,12 @@ const ccValidator = () => {
   console.log("This event listener is working");
 
   if (isValidCreditCard) {
-    creditCard.style.borderColor = "white";
+    creditCard.classList.remove("error-input");
+    creditCard.previousElementSibling.classList.remove("ccerror-text");
     return true;
   } else {
-    creditCard.style.borderColor = "red";
+    creditCard.classList.add("error-input");
+    creditCard.previousElementSibling.classList.add("ccerror-text");
     return false;
   }
 };
@@ -209,10 +238,12 @@ const zipValidator = () => {
   const isValidZip = regExZip.test(zipValue);
 
   if (isValidZip) {
-    zipField.style.borderColor = "white";
+    zipField.classList.remove("error-input");
+    zipField.previousElementSibling.classList.remove("ziperror-text");
     return true;
   } else {
-    zipField.style.borderColor = "red";
+    zipField.classList.add("error-input");
+    zipField.previousElementSibling.classList.add("ziperror-text");
     return false;
   }
 };
@@ -223,13 +254,25 @@ const cvvValidator = () => {
   const isValidCvv = regExCvv.test(cvvValue);
 
   if (isValidCvv) {
-    cvvField.style.borderColor = "white";
+    cvvField.classList.remove("error-input");
+    cvvField.previousElementSibling.classList.remove("cvverror-text");
     return true;
   } else {
-    cvvField.style.borderColor = "red";
+    cvvField.classList.add("error-input");
+    cvvField.previousElementSibling.classList.add("cvverror-text");
     return false;
   }
 };
+
+//Event listeners for live validation to add or remove error formatting/meassages
+
+userName.addEventListener("blur", (e) => {
+  userNameValidator();
+});
+
+email.addEventListener("keyup", (e) => {
+  emailValidator();
+});
 
 form.addEventListener("submit", (e) => {
   userNameValidator;
@@ -239,17 +282,18 @@ form.addEventListener("submit", (e) => {
   if (!userNameValidator()) {
     e.preventDefault();
     console.log("The userNameValidator failed KristiLou");
-    userName.focus();
   }
 
   if (!emailValidator()) {
     e.preventDefault();
     console.log("The emailvalidation failed KristiLou");
+    email.focus();
   }
 
   if (!activityValidator()) {
     e.preventDefault();
     console.log("The activityvalidation failed KristiLou");
+    activityInput[0].focus();
   }
 
   if (paymentSelect[1].selected) {
@@ -259,10 +303,12 @@ form.addEventListener("submit", (e) => {
     if (!ccValidator()) {
       e.preventDefault();
       console.log("The ccvalidation failed KristiLou");
+      creditCard.focus();
     }
     if (!zipValidator()) {
       e.preventDefault();
       console.log("The zipvalidation failed KristiLou");
+      zipField.focus();
     }
     if (!cvvValidator()) {
       e.preventDefault();

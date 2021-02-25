@@ -166,18 +166,53 @@ option {
   border-radius: 4px;
 }
 
+.error-input {
+  border: 3px solid #d00;
+}
+.error-text {
+  color: #d00;
+}
+
+.nameerror-text::after {
+  content: " Please include a name";
+  color: #d00;
+}
+
+.emailerror-text::after {
+  content: " Please enter a valid email address";
+  color: #d00;
+}
+
+.emailblankerror-text::after {
+  content: " Email address cannot be blank";
+  color: #d00;
+}
+
+.activityerror-text::after {
+  content: " Please check at least one activity";
+  color: #d00;
+}
+
+.ccerror-text::after {
+  content: " Please enter a valid credit card number";
+  color: #d00;
+}
+
+.ziperror-text::after {
+  content: " Please enter zip code for credit card";
+  color: #d00;
+}
+
+.cvverror-text::after {
+  content: " Please enter cvv from back of credit card";
+  color: #d00;
+}
 /* ================================= 
   Helper Classes
 ==================================== */
 
 .is-hidden {
   display: none;
-}
-
-.clearfix::after {
-  content: " ";
-  display: table;
-  clear: both;
 }
 
 /* ================================= 
@@ -211,6 +246,12 @@ option {
   }
 
   label {
+    clear: both;
+  }
+
+  .clearfix::after {
+    content: " ";
+    display: table;
     clear: both;
   }
 }
