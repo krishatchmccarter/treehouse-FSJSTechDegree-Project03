@@ -12,17 +12,13 @@ const creditCard = document.getElementById("cc-num");
 const zipField = document.getElementById("zip");
 const cvvField = document.getElementById("cvv");
 
-// document.write(
-//   '<script src="https://kit.fontawesome.com/bab41b580f.js" crossorigin="anonymous"></script>'
-// );
-
 //Put the first field in the focus state
 userName.focus();
 
-//Add "Other" option to the Job Role section.
-//Set input field to initially hidden but will display if JavaScript is disabled.
+//Add "Other" option to the Job Role section in HTML, set to hidden in JS.  Field will show if JS is disabled.
 jobRoleInput.style.display = "none";
 
+//Event listener displays hidden field when "Other" option is selected.
 jobTitle.addEventListener("change", (e) => {
   if (e.target.value === "other") {
     jobRoleInput.style.display = "block";
@@ -165,12 +161,6 @@ paymentSelect[0].disabled = true;
 
 //Form Validations using JS: Prevent user from submitting the form unless name, email, activities, CC pass validation (cc only if that payment option is selected).  Create helper functions to validate, call helper functions in eventlistener on form submit.
 
-// let userNameErrorMessageElement = document.createElement("span");
-// userNameErrorMessageElement.classList.add("error-text");
-// userNameErrorMessageElement.innerHTML = "The name field cannot be blank";
-// userName.insertAdjacentElement("beforebegin", userNameErrorMessageElement);
-
-// name (can't be blank)
 const userNameValidator = () => {
   const userNameValue = userName.value;
   if (userNameValue.length > 0) {
@@ -187,6 +177,7 @@ const userNameValidator = () => {
 };
 
 //validate email input
+//uses conditional error message for blank email vs invalid regex (for exceeds)
 const emailValidator = () => {
   const emailValue = email.value;
   //Email regex from https://emailregex.com/
@@ -199,7 +190,6 @@ const emailValidator = () => {
     return true;
   } else {
     if (emailValue.length == 0) {
-      console.log("email blank");
       email.classList.add("error-input");
       email.previousElementSibling.classList.add("emailblankerror-text");
       email.previousElementSibling.classList.remove("emailerror-text");
@@ -232,7 +222,6 @@ const ccValidator = () => {
   const CreditCardNumber = document.getElementById("cc-num").value;
   const regExCreditCard = /^[0-9]{13,16}$/;
   const isValidCreditCard = regExCreditCard.test(CreditCardNumber);
-  console.log("This event listener is working");
 
   if (isValidCreditCard) {
     creditCard.classList.remove("error-input");
@@ -276,7 +265,7 @@ const cvvValidator = () => {
     return false;
   }
 };
-
+//Real time error message on email input (for exceeds)
 email.addEventListener("keyup", (e) => {
   emailValidator();
 });
