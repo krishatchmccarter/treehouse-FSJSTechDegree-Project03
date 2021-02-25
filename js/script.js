@@ -46,6 +46,11 @@ pleaseSelectOption.value = "Please select a T-shirt theme";
 pleaseSelectOption.selected = true;
 shirtColorSet.insertBefore(pleaseSelectOption, shirtColorSet.firstChild);
 
+//Hide the Color label and select element until a Theme is selected (exceeds task).  Turning these back on is in the Design theme select element event listener below.
+
+shirtColorSet.style.display = "none";
+shirtColorSet.previousElementSibling.style.display = "none";
+
 //Use a change event listener on the Design menu select element to listen for changes.  Inside the event listener, use a conditional to determine what to hide, show and update.
 
 //If js puns is selected, hide the three heart js option elements in the color drop down menu, show the three js puns option elements and update the color field to the first available color.
@@ -56,18 +61,26 @@ shirtDesignSet.addEventListener("change", (e) => {
   if (e.target.value === "js puns") {
     for (i = 0; i < shirtColorSet.length; i++) {
       if (shirtColorSet[i].label.includes("JS Puns shirt only")) {
+        shirtColorSet.style.display = "block";
+        shirtColorSet.previousElementSibling.style.display = "block";
         shirtColorSet.options[i].hidden = false;
         shirtColorSet.options[1].selected = true;
+        shirtDesignSet.options[0].hidden = true;
       } else {
+        shirtColorSet.style.display = "block";
         shirtColorSet.options[i].hidden = true;
       }
     }
   } else {
     for (i = 0; i < shirtColorSet.length; i++) {
       if (shirtColorSet[i].label.includes("JS shirt only")) {
+        shirtColorSet.style.display = "block";
+        shirtColorSet.previousElementSibling.style.display = "block";
         shirtColorSet.options[i].hidden = false;
         shirtColorSet.options[4].selected = true;
+        shirtDesignSet.options[0].hidden = true;
       } else {
+        shirtColorSet.style.display = "block";
         shirtColorSet.options[i].hidden = true;
       }
     }
@@ -263,12 +276,6 @@ const cvvValidator = () => {
     return false;
   }
 };
-
-//Event listeners for live validation to add or remove error formatting/meassages
-
-userName.addEventListener("blur", (e) => {
-  userNameValidator();
-});
 
 email.addEventListener("keyup", (e) => {
   emailValidator();
