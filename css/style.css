@@ -169,43 +169,59 @@ option {
 .error-input {
   border: 3px solid #d00;
 }
+
+.activityerror-input1 {
+  border-top: 3px solid #d00;
+}
+
+.activityerror-input2 {
+  border-bottom: 3px solid #d00;
+}
 .error-text {
   color: #d00;
+  font-weight: bold;
 }
 
 .nameerror-text::after {
   content: " Please include a name";
   color: #d00;
+  font-weight: bold;
 }
 
 .emailerror-text::after {
   content: " Please enter a valid email address";
   color: #d00;
+  font-weight: bold;
 }
 
 .emailblankerror-text::after {
   content: " Email address cannot be blank";
   color: #d00;
+  font-weight: bold;
 }
 
 .activityerror-text::after {
   content: " Please check at least one activity";
   color: #d00;
+  font-weight: bold;
 }
 
 .ccerror-text::after {
-  content: " Please enter a valid credit card number";
+  content: " Please enter a credit card number between 13 and 16 digits long";
   color: #d00;
+  font-weight: bold;
 }
 
 .ziperror-text::after {
-  content: " Please enter zip code for credit card";
+  content: " 5 digits Required";
   color: #d00;
+  font-weight: bold;
 }
 
 .cvverror-text::after {
-  content: " Please enter cvv from back of credit card";
+  content: " 3 digits Required";
   color: #d00;
+  font-weight: bold;
 }
 /* ================================= 
   Helper Classes

@@ -206,12 +206,14 @@ const emailValidator = () => {
 //ensure at least one activity checked. using cost as criteria since that already runs based on checkbox input
 const activityValidator = () => {
   if (totalCost !== 0) {
-    activity.classList.remove("error-input");
+    activity.classList.remove("activityerror-input2");
     activity.classList.remove("activityerror-text");
+    activity.firstElementChild.classList.remove("activityerror-input1");
     return true;
   } else {
-    activity.classList.add("error-input");
+    activity.classList.add("activityerror-input2");
     activity.classList.add("activityerror-text");
+    activity.firstElementChild.classList.add("activityerror-input1");
     return false;
   }
 };
@@ -265,9 +267,17 @@ const cvvValidator = () => {
     return false;
   }
 };
-//Real time error message on email input (for exceeds)
+//Real time error messages (for exceeds)
+userName.addEventListener("change", (e) => {
+  userNameValidator();
+});
+
 email.addEventListener("keyup", (e) => {
   emailValidator();
+});
+
+activity.addEventListener("change", (e) => {
+  activityValidator();
 });
 
 form.addEventListener("submit", (e) => {
