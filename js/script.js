@@ -280,26 +280,25 @@ activity.addEventListener("change", (e) => {
   activityValidator();
 });
 
+creditCard.addEventListener("keyup", (e) => {
+  ccValidator();
+});
+
+zipField.addEventListener("keyup", (e) => {
+  zipValidator();
+});
+
+cvvField.addEventListener("keyup", (e) => {
+  cvvValidator();
+});
+
 form.addEventListener("submit", (e) => {
-  userNameValidator;
-  emailValidator;
-  activityValidator;
+  userNameValidator();
+  emailValidator();
+  activityValidator();
 
-  if (!userNameValidator()) {
+  if (!(userNameValidator() && emailValidator() && activityValidator())) {
     e.preventDefault();
-    console.log("The userNameValidator failed KristiLou");
-  }
-
-  if (!emailValidator()) {
-    e.preventDefault();
-    console.log("The emailvalidation failed KristiLou");
-    email.focus();
-  }
-
-  if (!activityValidator()) {
-    e.preventDefault();
-    console.log("The activityvalidation failed KristiLou");
-    activityInput[0].focus();
   }
 
   if (paymentSelect[1].selected) {
@@ -308,17 +307,12 @@ form.addEventListener("submit", (e) => {
     cvvValidator;
     if (!ccValidator()) {
       e.preventDefault();
-      console.log("The ccvalidation failed KristiLou");
-      creditCard.focus();
     }
     if (!zipValidator()) {
       e.preventDefault();
-      console.log("The zipvalidation failed KristiLou");
-      zipField.focus();
     }
     if (!cvvValidator()) {
       e.preventDefault();
-      console.log("The cvvvalidation failed KristiLou");
     }
   }
 });
