@@ -11,6 +11,10 @@ const activityInput = document.querySelectorAll(".activities label input");
 const creditCard = document.getElementById("cc-num");
 const zipField = document.getElementById("zip");
 const cvvField = document.getElementById("cvv");
+const creditDiv = document.getElementById("credit-card");
+const payPalDiv = document.getElementById("paypal");
+const bitCoinDiv = document.getElementById("bitcoin");
+const paymentSelect = document.querySelector("#payment");
 
 //Put the first field in the focus state
 userName.focus();
@@ -126,10 +130,6 @@ activity.addEventListener("change", (e) => {
 });
 
 //The "Credit Card" payment option should be selected by default. Display the #credit-card div, and hide the "PayPal" and "Bitcoin" information. Payment option in the select menu should match the payment option displayed on the page.
-const creditDiv = document.getElementById("credit-card");
-const payPalDiv = document.getElementById("paypal");
-const bitCoinDiv = document.getElementById("bitcoin");
-const paymentSelect = document.querySelector("#payment");
 
 payPalDiv.style.display = "none";
 bitCoinDiv.style.display = "none";
